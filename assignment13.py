@@ -61,18 +61,18 @@ CREATE TABLE IF NOT EXISTS customer (
 """
 execute_query(connection,create_customer_table)
 
-create_books_table = """
-CREATE TABLE IF NOT EXISTS books (
+create_book_table = """
+CREATE TABLE IF NOT EXISTS book (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     author TEXT NOT NULL,
-    ISBN INTEGER,
+    ISBN TEXT NOT NULL  ,
     edition TEXT NOT NULL,
-    price INTEGER,
+    price TEXT NOT NULL,
     publisher TEXT NOT NULL
 );
     """
-execute_query(connection,create_books_table)
+execute_query(connection,create_book_table)
 #-----------------------------------------------------------------------#
 Menu = 0
 
@@ -162,11 +162,12 @@ while Menu != 3:
 
             create_book = f"""
             INSERT INTO
-                books (title, author, ISBN, edition, price, publisher)
+                book (title, author, ISBN, edition, price, publisher)
             VALUES
                 ('{title}', '{author}', '{ISBN}', '{edition}', '{price}', '{publisher}');
-                """
+            """
             execute_query(connection, create_book)
+
             if option == 2:
                 print("Please enter the details you want to edit:")
                 modify = input()
@@ -175,7 +176,7 @@ while Menu != 3:
                 print("Please enter the old information")
                 old_information = input()
 
-                update_person_name = f"""
+                update_book = f"""
                 UPDATE
                     books
                 SET
@@ -184,12 +185,15 @@ while Menu != 3:
                     {modify} = '{old_information}'
                 """
 
-                execute_query(connection, update_person_name)
+                execute_query(connection, update_book)
+
+
             if option == 3:
-                select_books = "SELECT * from books"
+                select_books = "SELECT * from book"
                 books = execute_read_query(connection, select_books)
-                for book in books:
-                    print(book)
+                for library in books:
+                    print(library)
+
 
             if option == 4:
                 print("Please enter the details of the book you want to delete")
